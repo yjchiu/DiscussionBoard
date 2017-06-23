@@ -1,0 +1,13 @@
+<div>
+  <ul class="list-inline">
+    <li><a [routerLink]="['/dashboard']">Dashboard</a></li>
+    <li><a (click)="logOut()">Logout</a></li>
+  </ul>
+  <h1>Username: {{ name }}</h1>
+  <h3>Posted....</h3>
+  <ul>
+    <li>{{ topicCount }} Topics</li>
+    <li>{{ postCount }} Posts</li>
+    <li>{{ commentCount }} Comments</li>
+  </ul>
+</div>

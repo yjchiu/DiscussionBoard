@@ -1,0 +1,84 @@
+<div>
+  <h3>Welcome, {{ name }} !</h3>
+  <ul class="list-inline">
+    <li><a [routerLink]="['/dashboard']">Dashboard</a></li>
+    <li><a (click)="logOut()">Logout</a></li>
+  </ul>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <td>Category</td>
+          <td>Topic</td>
+          <td>User Name</td>
+          <td>Posts</td>
+        </tr>
+        <tr *ngFor=" let topic of topics">
+          <td>{{ topic.category }}</td>
+          <td><a [routerLink]="['/topic', topic._id ]">{{ topic.title }}</a></td>
+          <td><a [routerLink]="['/user', topic._user ]">{{ topic.username }}</a></td>
+          <td>{{ topic.count }}</td>
+        </tr>
+      </thead>
+      <tbody>
+        
+      </tbody>
+    </table>
+    <hr>
+  <!--{{ topic | json }}<hr>
+  {{ topics | json }}-->
+  <div id="topic_form">
+    <h3>Add a new Topic</h3>
+    <form #topicForm="ngForm" (submit)="createNewTopic(topicForm)">
+      <div class="form-group">
+        <label for="title">Topic:
+        <input type="text" name="title" class="form-control"
+        [(ngModel)]="topic.title"
+        required
+        minlength="2"
+        #title="ngModel"
+        >
+        </label>
+      </div>
+      <div class="red" *ngIf='title.errors && ( title.touched || topicForm.submitted)'>
+        <p *ngIf='title.errors.required'>Topic is required</p>
+        <p *ngIf='title.errors.minlength'>Topic must be at least 2 characters.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="discription">Description:
+        <textarea rows="3" name="description" class="form-control"
+        [(ngModel)]="topic.description"
+        required
+        minlength="5"
+        #description="ngModel"
+        ></textarea> 
+        </label>
+      </div>
+      <div class="red" *ngIf='description.errors && ( description.touched || topicForm.submitted)'>
+        <p *ngIf='description.errors.required'>Description is required</p>
+        <p *ngIf='description.errors.minlength'>Description must be at least 5 characters.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="category">Category:
+          <select name="category" class="form-control"
+          [(ngModel)]="topic.category"
+          required
+          #cat="ngModel"
+          >
+            <option value="Javascript">Javascript</option>
+            <option value="MySQL">MySQL</option>
+            <option value="UX">UX</option>
+            <option value="HTML">HTML</option>
+            <option value="Python">Python</option>
+          </select>
+        </label>
+      </div>
+      <div class="red" *ngIf='cat.errors && ( cat.touched || topicForm.submitted)'>
+        <p *ngIf='cat.errors.required'>Category is required</p>
+      </div>
+      
+      <button [disabled]="!topicForm.valid" type="submit" class="btn btn-success">Submit</button>
+    </form>
+  </div>
+</div>

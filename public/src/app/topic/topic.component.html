@@ -1,0 +1,58 @@
+<div>
+  <ul class="list-inline">
+    <li><a [routerLink]="['/dashboard']">Dashboard</a></li>
+    <li><a (click)="logOut()">Logout</a></li>
+  </ul>
+  <!--{{ topic | json }}-->
+  <h3><a [routerLink]="['/user', topic._user ]">{{ topic.username }}</a> posted a topic:</h3>
+  <p><strong>{{ topic.title }}</strong></p>
+  <p>Description: {{ topic.description }}</p>
+  <!--{{ post | json }}-->
+  <form #postForm="ngForm" (submit)="createNewPost(postForm)">
+    <div class="form-group">
+      <label for="post">Post your answer here...</label>
+      <textarea rows="3" name="content" class="form-control"
+      [(ngModel)]="post.content"
+      required
+      minlength="5"
+      #content="ngModel"
+      ></textarea>
+      
+      <div class="red" *ngIf='content.errors && ( content.touched || postForm.submitted)'>
+        <p *ngIf='content.errors.required'>Post is required</p>
+        <p *ngIf='content.errors.minlength'>Post must be at least 5 characters.</p>
+    </div>
+
+    </div>
+    <button [disabled]="!postForm.valid" type="submit" class="btn btn-success">Post</button>
+  </form>
+  <hr>
+  <!--{{ posts | json }}-->
+  <div class="post_container" *ngFor="let post of posts">
+    <h4><a [routerLink]="['/user', post._user ]">{{ post.name }}</a> {{post.content }}</h4>
+    <div *ngFor="let comment of post.comments">
+      <p><a [routerLink]="['/user', comment._user ]">{{ comment.name }}</a> {{ comment.content }}</p>
+    </div>
+    <p>{{ post.votes_up }} <button (click)="voteUP(post._id)" class="btn btn-success"><span class="glyphicon glyphicon-menu-up"></span></button> {{ post.votes_down }} <button (click)="voteDOWN(post._id)" class="btn btn-danger"><span class="glyphicon glyphicon-menu-down"></span></button></p>
+    {{ post._id | json }}
+    <form #commentForm="ngForm" (submit)="createNewComment(commentcontent.value, post._id, commentcontent.error)">
+    <div class="form-group">
+      <label for="comment">Leave your comment here...</label>
+      <textarea rows="3" name="content" class="form-control"
+      required
+      minlength="3"
+      #commentcontent
+      ></textarea>
+      
+      <div class="red" *ngIf='commentcontent.errors && ( commentcontent.touched || commentForm.submitted)'>
+        <p *ngIf='commentcontent.errors.required'>Comment is required</p>
+        <p *ngIf='commentcontent.errors.minlength'>Comment must be at least 3 characters.</p>
+    </div>
+
+    </div>
+    <button [disabled]="!commentForm.valid" type="submit" class="btn btn-success">Comment</button>
+  </form>
+  <hr>
+  </div>
+</div>
+

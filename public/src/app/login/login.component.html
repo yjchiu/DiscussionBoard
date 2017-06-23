@@ -1,0 +1,20 @@
+<div id="login_component">
+  <!--{{ name | json }}-->
+  <h3>Hello</h3>
+  <form #loginForm="ngForm" (submit)="getUser(loginForm)">
+    <div class="form-group">
+    <label>Please enter your name to join and share your ideas</label>
+    <input type="text" name="name" class="form-control"
+    [(ngModel)] = "user.name"
+    required
+    minlength="3"
+    #username="ngModel"
+    >
+    </div>
+    <div class="red" *ngIf='username.errors && ( username.touched || loginForm.submitted)'>
+        <p *ngIf='username.errors.required'>Name is required</p>
+        <p *ngIf='username.errors.minlength'>Name must be at least 3 characters.</p>
+    </div>
+    <button [disabled]="!loginForm.valid" type="submit" class="btn btn-success">Enter</button>
+  </form>
+</div>
